@@ -1,0 +1,104 @@
+import java.util.Scanner;
+
+public class ATMMachine {
+
+    private static int balance = 5000;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter Your Name:");
+        String userName = scanner.nextLine();
+        System.out.println("Enter Your PIN:"); // Changed from "Enter Your Password:"
+        String pin = scanner.nextLine(); // Changed from "String password = scanner.nextLine();"
+        
+        
+        if (authenticateUser(userName, pin)) {
+            System.out.println("Welcome " + userName + "!");
+            while (true) {
+                displayMenu();
+                int choice = scanner.nextInt();
+                switch (choice) {
+                    case 1:
+                        if (verifyPIN(scanner)) {
+                            withdrawMoney(scanner);
+                        } else {
+                            System.out.println("Incorrect PIN. Please try again.");
+                        }
+                        break;
+                    case 2:
+                        if (verifyPIN(scanner)) {
+                            depositMoney(scanner);
+                        } else {
+                            System.out.println("Incorrect PIN. Please try again.");
+                        }
+                        break;
+                    case 3:
+                        if (verifyPIN(scanner)) {
+                            checkBalance();
+                        } else {
+                            System.out.println("Incorrect PIN. Please try again.");
+                        }
+                        break;
+                    case 4:
+                        exitATM();
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+            }
+        } else {
+            System.out.println("Authentication failed. Exiting...");
+        }
+    }
+
+    private static boolean authenticateUser(String userName, String pin) {
+        return userName.equals("Asmita") && pin.equals("7865"); // Replace with your PIN
+    }
+
+    private static boolean verifyPIN(Scanner scanner) {
+        System.out.print("Enter Your PIN: ");
+        String enteredPIN = scanner.next();
+        return enteredPIN.equals("7865"); // Replace with your PIN
+    }
+
+    private static void displayMenu() {
+        System.out.println("\nWelcome To Your ATM Machine");
+        System.out.println("1. Withdraw Money");
+        System.out.println("2. Deposit Money");
+        System.out.println("3. Check Balance");
+        System.out.println("4. Exit");
+        System.out.print("Enter your choice: ");
+    }
+
+    private static void withdrawMoney(Scanner scanner) {
+        System.out.print("Enter Amount to Withdraw: ");
+        int withdraw = scanner.nextInt();
+        if (balance >= withdraw) {
+            balance -= withdraw;
+            System.out.println("Your New Balance: $" + balance);
+            System.out.println("***** Collect Your Cash *****");
+        } else {
+            System.out.println("Sorry, You Don't Have Enough Balance.");
+            System.out.println("Do anything, but don't forget to Save and Invest Your Money For the Future.");
+        }
+    }
+
+    private static void depositMoney(Scanner scanner) {
+        System.out.print("Enter Amount to Deposit: ");
+        int deposit = scanner.nextInt();
+        balance += deposit;
+        System.out.println("Your New Balance: $" + balance);
+        System.out.println("Amount Deposited Successfully.");
+        System.out.println("You are Saving! Nice Work, AK");
+    }
+
+    private static void checkBalance() {
+        System.out.println("Your Account Balance: $" + balance);
+    }
+
+    private static void exitATM() {
+        System.out.println("Thank you for using the ATM. Goodbye!");
+        System.exit(0);
+    }
+}
